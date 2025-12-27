@@ -1,10 +1,32 @@
-langchain==0.1.16
+
+# Note: For CPU-only PyTorch, install using the PyTorch CPU index:
+#   pip install --index-url https://download.pytorch.org/whl/cpu/ torch
+
+langchain==1.2.0
 ctransformers==0.2.27
-sentence-transformers==2.2.2
-pinecone-client==3.0.0
-pypdf==4.1.0
-python-dotenv==1.0.1
-langchain-pinecone==0.0.3
-langchain-community==0.0.34
-langchain-core==0.1.33
-langchain-huggingface==0.0.5
+sentence-transformers==5.2.0
+pinecone>=6.0.0,<8.0.0  # use pinecone <8 to stay compatible with langchain-pinecone
+pypdf==6.5.0
+python-dotenv==1.2.1
+langchain-pinecone==0.2.13
+langchain-community==0.4.1
+langchain-core==1.2.5
+langchain-huggingface==1.2.0
+langchain-classic==1.0.1
+numpy==2.2.6
+transformers==4.57.3
+huggingface-hub==0.36.0
+scikit-learn==1.7.2
+scipy==1.15.3
+tqdm==4.67.1
+py-cpuinfo==9.0.0
+safetensors==0.7.0
+tokenizers==0.22.1
+sentencepiece==0.2.1
+# CPU-only torch (special wheel):
+# torch==2.9.1+cpu  # install via: pip install --index-url https://download.pytorch.org/whl/cpu/ torch
+# If you previously had `pinecone-client` installed, remove it and use `pinecone` instead.
+torch==2.9.1+cpu --index-url https://download.pytorch.org/whl/cpu
+# Web app backend
+flask==3.0.0
+werkzeug==3.0.0
