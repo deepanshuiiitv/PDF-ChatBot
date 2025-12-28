@@ -126,6 +126,7 @@ jupyter notebook trails.ipynb
 
 ## Architecture pipeline for project
 
+```
 PDFs
  ↓
 PyPDFLoader
@@ -145,9 +146,11 @@ Prompt + Retrieved Context
 Local LLM (LLaMA via ctransformers)
  ↓
 Answer
+```
 
 ## Architecture pipeline for quick run
 
+```
 PDFs
  ↓
 PyPDFLoader
@@ -165,5 +168,6 @@ Prompt + Context
 Local LLM (LLaMA via ctransformers)
  ↓
 Answer
+```
 
 ---
