@@ -124,4 +124,46 @@ jupyter notebook trails.ipynb
 * `project/` = full application
 * `quick_run/` = rapid testing & debugging
 
+## Architecture pipeline for project
+
+PDFs
+ ↓
+PyPDFLoader
+ ↓
+Text Splitter
+ ↓
+Embeddings (HF)
+ ↓
+Local Vector Store (vectorstore.pkl + NearestNeighbors)
+        └── optional sync →
+            Pinecone Vector DB
+ ↓
+Retriever (Local NN or Pinecone)
+ ↓
+Prompt + Retrieved Context
+ ↓
+Local LLM (LLaMA via ctransformers)
+ ↓
+Answer
+
+## Architecture pipeline for quick run
+
+PDFs
+ ↓
+PyPDFLoader
+ ↓
+Text Splitter
+ ↓
+Embeddings (HF)
+ ↓
+Pinecone Vector DB
+ ↓
+Retriever
+ ↓
+Prompt + Context
+ ↓
+Local LLM (LLaMA via ctransformers)
+ ↓
+Answer
+
 ---

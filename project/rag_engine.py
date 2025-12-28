@@ -28,39 +28,6 @@ except Exception:
     np = None
     NearestNeighbors = None
 
-
-def get_embedder():
-    global embed_model
-    if embed_model is None:
-        if SentenceTransformer is None:
-            raise RuntimeError("Missing 'sentence-transformers'. Install with: pip install sentence-transformers scikit-learn")
-        embed_model = SentenceTransformer(EMBEDDING_MODEL)
-    return embed_model
-
-
-def _persist():
-    try:
-        with open(VECTORSTORE_PATH, "wb") as f:
-            pickle.dump({"documents": DOCUMENTS, "embeddings": EMBEDDINGS}, f)
-    except Exception:
-        pass
-
-
-def load_vectorstore():
-    global DOCUMENTS, EMBEDDINGS, NN
-    if os.path.exists(VECTORSTORE_PATH):
-        try:
-            with open(VECTORSTORE_PATH, "rb") as f:
-                data = pickle.load(f)
-                DOCUMENTS = data.get("documents", [])
-                EMBEDDINGS = data.get("embeddings", None)
-                if EMBEDDINGS is not None and NearestNeighbors is not None:
-                    NN = NearestNeighbors(n_neighbors=min(4, len(EMBEDDINGS)), metric="cosine")
-                    NN.fit(EMBEDDINGS)
-        except Exception:
-            pass
-
-
 def process_pdf(pdf_path):
     global DOCUMENTS, EMBEDDINGS, NN
     loader = PyPDFLoader(pdf_path)
@@ -107,10 +74,37 @@ def process_pdf(pdf_path):
 
     _persist()
 
+def get_embedder():
+    global embed_model
+    if embed_model is None:
+        if SentenceTransformer is None:
+            raise RuntimeError("Missing 'sentence-transformers'. Install with: pip install sentence-transformers scikit-learn")
+        embed_model = SentenceTransformer(EMBEDDING_MODEL)
+    return embed_model
+
+def _persist():
+    try:
+        with open(VECTORSTORE_PATH, "wb") as f:
+            pickle.dump({"documents": DOCUMENTS, "embeddings": EMBEDDINGS}, f)
+    except Exception:
+        pass
+
+def load_vectorstore():
+    global DOCUMENTS, EMBEDDINGS, NN
+    if os.path.exists(VECTORSTORE_PATH):
+        try:
+            with open(VECTORSTORE_PATH, "rb") as f:
+                data = pickle.load(f)
+                DOCUMENTS = data.get("documents", [])
+                EMBEDDINGS = data.get("embeddings", None)
+                if EMBEDDINGS is not None and NearestNeighbors is not None:
+                    NN = NearestNeighbors(n_neighbors=min(4, len(EMBEDDINGS)), metric="cosine")
+                    NN.fit(EMBEDDINGS)
+        except Exception:
+            pass
 
 # load on import if available
 load_vectorstore()
-
 
 def ask_question(query: str) -> str:
     # If there's no local vectorstore, only proceed if Pinecone is configured
